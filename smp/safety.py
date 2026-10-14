@@ -125,6 +125,7 @@ def guarded(request, primary, fallbacks=()):
 
     Always returns a response of the right shape with only valid actions. Never raises.
     """
+    restart_clock()          # each request gets the full time budget (one request per process in the container)
     phase = request.get('phase') if isinstance(request, dict) else None
     key = 'pairs' if phase == 'match' else 'asks'
     state = request.get('state') if isinstance(request, dict) else None

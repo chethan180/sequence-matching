@@ -4,7 +4,16 @@ The pool is treated as a graph (members are nodes, feasible pairs are weighted e
 because taking the single best pair first can strand people who had no other partner.
 """
 from .feasibility import feasible_edges
+from .matching import best_pairs
 from .model import pair_values, soft_match_count
+from .normalise import past_pairs
+
+# Tiered integer weights: every pair is worth CARDINALITY, every never-introduced person in it COVERAGE, and the
+# predicted value at most VALUE_SCALE. The tiers never overlap, so the matcher maximises the number of introductions
+# first, then the number of people served for the first time, then predicted value.
+CARDINALITY = 10 ** 12
+COVERAGE = 10 ** 9
+VALUE_SCALE = 10 ** 6
 
 
 def greedy_matching(weighted):
@@ -110,10 +119,30 @@ def edge_weights(state, edges, cfg):
     return experimental.edge_weights(state, edges, cfg)
 
 
+def tiered_weights(state, edges, cfg):
+    """Integer weights for the exact matcher: cardinality, then first-time coverage, then predicted value."""
+    served = {x for pair in past_pairs(state) for x in pair}
+    values = pair_values(state, edges) if cfg['score'] == 'logit' else [0.0] * len(edges)
+    out = []
+    for v, (a, b) in zip(values, edges):
+        w = CARDINALITY if cfg.get('cardinality', True) else 0
+        if cfg.get('coverage', True):
+            w += COVERAGE * ((a['member_id'] not in served) + (b['member_id'] not in served))
+        w += int(round(min(max(v, 0.0), 1.0) * VALUE_SCALE)) + 1
+        out.append((w, a['member_id'], b['member_id']))
+    return out
+
+
 def choose_pairs(state, cfg):
     edges = feasible_edges(state)
     if not edges:
         return []
+    if cfg['match'] == 'tiered':
+        from .safety import seconds_left
+        weighted = tiered_weights(state, edges, cfg)
+        if seconds_left() > 2.0:
+            return [sorted(p) for p in best_pairs(weighted)]
+        return [sorted(p) for p in greedy_matching(weighted)]    # out of time: still valid, merely not optimal
     weighted = edge_weights(state, edges, cfg)
     pairs = global_matching(weighted) if cfg['match'] == 'global' else greedy_matching(weighted)
     return [sorted(p) for p in pairs]

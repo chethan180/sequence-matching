@@ -19,6 +19,7 @@ from kit import Simulator, generate
 import policy
 
 VARIANTS = ('development', 'sparse', 'cold_start', 'delayed', 'shift', 'drift')
+INDEPENDENT = '--independent' in __import__('sys').argv
 KEYS = ('msmi100', 'mutual100', 'coverage', 'ask_cost', 'assignments', 'dates', 'yes_rate', 'mutual_rate', 'known_core')
 
 
@@ -35,7 +36,8 @@ def oracle_pairs(sim, state, mode):
 
 def run(job):
     mode, variant, seed, collect = job
-    sim = Simulator(generate(seed, 200, 'evaluation', variant))
+    world_seed = seed + 100000 * VARIANTS.index(variant) if INDEPENDENT else seed
+    sim = Simulator(generate(world_seed, 200, 'evaluation', variant))
     memory = None
     t0 = time.perf_counter()
     slowest = 0.0
@@ -144,6 +146,7 @@ if __name__ == '__main__':
     p.add_argument('--variants', default='all')
     p.add_argument('--output', default='results/exp.json')
     p.add_argument('--procs', type=int, default=11)
+    p.add_argument('--independent', action='store_true', help='a different world seed for every scenario, so episodes are independent')
     p.add_argument('--collect', action='store_true', help='log pre-decision features and outcomes of every introduction')
     a = p.parse_args()
     modes = a.configs.split(',')

@@ -6,7 +6,7 @@ between episodes and a decision can always be reproduced from the request alone.
 A configuration is a small dict of switches, each of which is an ablation handle:
   ask          'baseline' hard-constraint bundles in list order | 'none' never ask
   soft_asks    'voi' also buy soft answers by value of information with leftover units
-  match        'global' joint matching | 'greedy' best pair first
+  match        'global' joint matching | 'greedy' best pair first | 'tiered' exact matcher with tiered weights
   score        'logit' the yes-model | 'soft' the reference soft-match count
   eps          constant added to every pair so that more introductions beat fewer
 """
@@ -15,6 +15,11 @@ from . import allocate, clarify
 CONFIGS = {
     # submitted default
     'final':        dict(ask='baseline', match='global', score='logit', eps=0.02),
+    # Round 2 allocation: exact matcher, tiered weights (cardinality, first-time coverage, predicted value)
+    'tiered':       dict(ask='baseline', match='tiered', score='logit'),
+    'tiered_nocov': dict(ask='baseline', match='tiered', score='logit', coverage=False),
+    'tiered_novalue': dict(ask='baseline', match='tiered', score='none'),
+    'exact_value':  dict(ask='baseline', match='tiered', score='logit', cardinality=False, coverage=False),
     # ablations of the default, one switch at a time
     'final_noask':  dict(ask='none', match='global', score='logit', eps=0.02),
     'logit_greedy': dict(ask='baseline', match='greedy', score='logit'),
