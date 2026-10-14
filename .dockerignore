@@ -1,4 +1,8 @@
 *
 !kit.py
 !policy.py
+!model_weights.json
+!smp
 !Dockerfile
+**/__pycache__
+**/*.pyc

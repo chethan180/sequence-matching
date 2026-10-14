@@ -1,0 +1,1863 @@
+{
+ "meta": {
+  "description": "Five synthetic members from public_05 with every source file merged: members.jsonl (fields, status, observed day), questionnaires.jsonl (text answers), conversations.jsonl (scripted chat), introductions.jsonl and feedback.jsonl. Snapshot is day 30.",
+  "pool_id": "public_05",
+  "snapshot_day": 30,
+  "hard_fields": [
+   "age_min",
+   "age_max",
+   "who_to_meet",
+   "relationship_structure",
+   "smoking",
+   "partner_smoking",
+   "has_children",
+   "partner_children",
+   "wants_children",
+   "acceptable_zones",
+   "schedule"
+  ],
+  "soft_fields": [
+   "relationship_goal",
+   "relationship_pace",
+   "lifestyle",
+   "conversations",
+   "emotional_availability",
+   "space_for_relationship",
+   "relocate"
+  ],
+  "soft_fields_used_in_learned_score": [
+   "relationship_goal",
+   "relationship_pace",
+   "lifestyle",
+   "conversations"
+  ],
+  "alias_to_member_id": {
+   "P1": "syn_0cf9e38720b54f715da4f4930ee5b602",
+   "P2": "syn_4a30986e184de09da4d488e6dc42ec50",
+   "P3": "syn_6386031efeb54abdfa96637beb180642",
+   "P4": "syn_d1ce45f75d93596c81ae980e72fec48f",
+   "P5": "syn_f52d998f7b3adeed3355e5e1ddd5221d"
+  },
+  "null_means": "unknown, never zero or no"
+ },
+ "people": [
+  {
+   "alias": "P1",
+   "member_id": "syn_0cf9e38720b54f715da4f4930ee5b602",
+   "pool_id": "public_05",
+   "profile": {
+    "age": 29,
+    "gender": "non_binary",
+    "zone": "zone_a",
+    "arrived_day": 10,
+    "available_at_day_30": false
+   },
+   "hard_fields": {
+    "age_min": {
+     "value": 22,
+     "status": "observed",
+     "observed_day": 10
+    },
+    "age_max": {
+     "value": 36,
+     "status": "observed",
+     "observed_day": 10
+    },
+    "who_to_meet": {
+     "value": [
+      "woman"
+     ],
+     "status": "observed",
+     "observed_day": 10
+    },
+    "relationship_structure": {
+     "value": "monogamous",
+     "status": "observed",
+     "observed_day": 10
+    },
+    "smoking": {
+     "value": "yes",
+     "status": "observed",
+     "observed_day": 10
+    },
+    "partner_smoking": {
+     "value": "any",
+     "status": "observed",
+     "observed_day": 10
+    },
+    "has_children": {
+     "value": true,
+     "status": "observed",
+     "observed_day": 10
+    },
+    "partner_children": {
+     "value": "any",
+     "status": "observed",
+     "observed_day": 10
+    },
+    "wants_children": {
+     "value": "unsure",
+     "status": "observed",
+     "observed_day": 10
+    },
+    "acceptable_zones": {
+     "value": [
+      "zone_a"
+     ],
+     "status": "observed",
+     "observed_day": 10
+    },
+    "schedule": {
+     "value": [
+      "weekend_evening",
+      "weekday_evening",
+      "weekend_day"
+     ],
+     "status": "observed",
+     "observed_day": 10
+    }
+   },
+   "soft_fields": {
+    "relationship_goal": {
+     "value": "long_term",
+     "status": "observed",
+     "observed_day": 10
+    },
+    "relationship_pace": {
+     "value": "quick",
+     "status": "observed",
+     "observed_day": 10
+    },
+    "lifestyle": {
+     "value": "mixed",
+     "status": "observed",
+     "observed_day": 10
+    },
+    "conversations": {
+     "value": "practical",
+     "status": "observed",
+     "observed_day": 10
+    },
+    "emotional_availability": {
+     "value": "taking_time",
+     "status": "observed",
+     "observed_day": 10
+    },
+    "space_for_relationship": {
+     "value": "ample",
+     "status": "observed",
+     "observed_day": 10
+    },
+    "relocate": {
+     "value": "unsure",
+     "status": "observed",
+     "observed_day": 10
+    }
+   },
+   "questionnaire_text": {
+    "age_range": "22-36",
+    "conversations": "practical",
+    "emotional_availability": "taking_time",
+    "gender": "non_binary",
+    "has_children": "Yes",
+    "lifestyle": "mixed",
+    "location": "zone_a",
+    "partner_children": "Open to it",
+    "partner_smoking": "Open to it",
+    "relationship_goal": "long_term",
+    "relationship_pace": "quick",
+    "relationship_structure": "Monogamous",
+    "relocate": "unsure",
+    "schedule": "weekend_evening, weekday_evening, weekend_day",
+    "smoking": "Yes",
+    "space_for_relationship": "ample",
+    "wants_children": "Unsure",
+    "who_to_meet": "women"
+   },
+   "conversation": [
+    [
+     "assistant",
+     "What are you hoping to find?"
+    ],
+    [
+     "user",
+     "I would like to build a lasting relationship."
+    ],
+    [
+     "assistant",
+     "What pace feels comfortable?"
+    ],
+    [
+     "user",
+     "I am comfortable meeting fairly soon."
+    ],
+    [
+     "assistant",
+     "How do you tend to spend free time?"
+    ],
+    [
+     "user",
+     "I like a mixture of quiet time and seeing people."
+    ],
+    [
+     "assistant",
+     "What kinds of conversation do you enjoy?"
+    ],
+    [
+     "user",
+     "I enjoy working through practical questions."
+    ]
+   ],
+   "introduction_ids": [
+    "intro_46a802767ca76481d8fddf32",
+    "intro_c82a86566ab309904af12acc"
+   ],
+   "own_feedback_events": [
+    {
+     "introduction_id": "intro_46a802767ca76481d8fddf32",
+     "event": "introduction_response",
+     "value": "no",
+     "occurred_day": 15,
+     "observed_day": 15,
+     "missing_reason": null
+    },
+    {
+     "introduction_id": "intro_c82a86566ab309904af12acc",
+     "event": "introduction_response",
+     "value": "no",
+     "occurred_day": 30,
+     "observed_day": 30,
+     "missing_reason": null
+    }
+   ],
+   "response_history": {
+    "introductions_answered_or_timed_out": 2,
+    "answered": 2,
+    "yes": 0,
+    "shrunk_p_answer": 0.868,
+    "shrunk_p_yes_given_answer": 0.282,
+    "p_yes": 0.2448
+   }
+  },
+  {
+   "alias": "P2",
+   "member_id": "syn_4a30986e184de09da4d488e6dc42ec50",
+   "pool_id": "public_05",
+   "profile": {
+    "age": 35,
+    "gender": "woman",
+    "zone": "zone_a",
+    "arrived_day": 0,
+    "available_at_day_30": true
+   },
+   "hard_fields": {
+    "age_min": {
+     "value": 27,
+     "status": "observed",
+     "observed_day": 0
+    },
+    "age_max": {
+     "value": 41,
+     "status": "observed",
+     "observed_day": 0
+    },
+    "who_to_meet": {
+     "value": [
+      "woman"
+     ],
+     "status": "observed",
+     "observed_day": 0
+    },
+    "relationship_structure": {
+     "value": "monogamous",
+     "status": "observed",
+     "observed_day": 0
+    },
+    "smoking": {
+     "value": "yes",
+     "status": "observed",
+     "observed_day": 0
+    },
+    "partner_smoking": {
+     "value": "any",
+     "status": "observed",
+     "observed_day": 0
+    },
+    "has_children": {
+     "value": true,
+     "status": "observed",
+     "observed_day": 0
+    },
+    "partner_children": {
+     "value": "no_children",
+     "status": "observed",
+     "observed_day": 0
+    },
+    "wants_children": {
+     "value": "no",
+     "status": "observed",
+     "observed_day": 0
+    },
+    "acceptable_zones": {
+     "value": [
+      "zone_a",
+      "zone_c"
+     ],
+     "status": "observed",
+     "observed_day": 0
+    },
+    "schedule": {
+     "value": [
+      "weekend_day",
+      "weekend_evening"
+     ],
+     "status": "observed",
+     "observed_day": 0
+    }
+   },
+   "soft_fields": {
+    "relationship_goal": {
+     "value": "exploring",
+     "status": "observed",
+     "observed_day": 0
+    },
+    "relationship_pace": {
+     "value": "quick",
+     "status": "observed",
+     "observed_day": 0
+    },
+    "lifestyle": {
+     "value": "social",
+     "status": "observed",
+     "observed_day": 0
+    },
+    "conversations": {
+     "value": "playful",
+     "status": "observed",
+     "observed_day": 0
+    },
+    "emotional_availability": {
+     "value": "taking_time",
+     "status": "observed",
+     "observed_day": 0
+    },
+    "space_for_relationship": {
+     "value": "moderate",
+     "status": "observed",
+     "observed_day": 0
+    },
+    "relocate": {
+     "value": "yes",
+     "status": "observed",
+     "observed_day": 0
+    }
+   },
+   "questionnaire_text": {
+    "age_range": "27-41",
+    "conversations": "playful",
+    "emotional_availability": "taking_time",
+    "gender": "woman",
+    "has_children": "Yes",
+    "lifestyle": "social",
+    "location": "zone_a",
+    "partner_children": "Prefer not to",
+    "partner_smoking": "Open to it",
+    "relationship_goal": "exploring",
+    "relationship_pace": "quick",
+    "relationship_structure": "Monogamous",
+    "relocate": "yes",
+    "schedule": "weekend_day, weekend_evening",
+    "smoking": "Yes",
+    "space_for_relationship": "moderate",
+    "wants_children": "I do not want children",
+    "who_to_meet": "women"
+   },
+   "conversation": [
+    [
+     "assistant",
+     "What are you hoping to find?"
+    ],
+    [
+     "user",
+     "I am still working out what I want."
+    ],
+    [
+     "assistant",
+     "What pace feels comfortable?"
+    ],
+    [
+     "user",
+     "I am comfortable meeting fairly soon."
+    ],
+    [
+     "assistant",
+     "How do you tend to spend free time?"
+    ],
+    [
+     "user",
+     "I enjoy having plans with people."
+    ],
+    [
+     "assistant",
+     "What kinds of conversation do you enjoy?"
+    ],
+    [
+     "user",
+     "I like a playful conversation."
+    ]
+   ],
+   "introduction_ids": [
+    "intro_27a1ed581954224f1a43685b"
+   ],
+   "own_feedback_events": [
+    {
+     "introduction_id": "intro_27a1ed581954224f1a43685b",
+     "event": "introduction_response",
+     "value": null,
+     "occurred_day": null,
+     "observed_day": 15,
+     "missing_reason": "no_response"
+    }
+   ],
+   "response_history": {
+    "introductions_answered_or_timed_out": 1,
+    "answered": 0,
+    "yes": 0,
+    "shrunk_p_answer": 0.585,
+    "shrunk_p_yes_given_answer": 0.47,
+    "p_yes": 0.2749
+   }
+  },
+  {
+   "alias": "P3",
+   "member_id": "syn_6386031efeb54abdfa96637beb180642",
+   "pool_id": "public_05",
+   "profile": {
+    "age": 30,
+    "gender": "woman",
+    "zone": "zone_a",
+    "arrived_day": 3,
+    "available_at_day_30": false
+   },
+   "hard_fields": {
+    "age_min": {
+     "value": 25,
+     "status": "observed",
+     "observed_day": 3
+    },
+    "age_max": {
+     "value": 36,
+     "status": "observed",
+     "observed_day": 3
+    },
+    "who_to_meet": {
+     "value": [
+      "woman",
+      "man",
+      "non_binary"
+     ],
+     "status": "observed",
+     "observed_day": 3
+    },
+    "relationship_structure": {
+     "value": "monogamous",
+     "status": "observed",
+     "observed_day": 3
+    },
+    "smoking": {
+     "value": "no",
+     "status": "observed",
+     "observed_day": 3
+    },
+    "partner_smoking": {
+     "value": "no_smoking",
+     "status": "observed",
+     "observed_day": 3
+    },
+    "has_children": {
+     "value": false,
+     "status": "observed",
+     "observed_day": 3
+    },
+    "partner_children": {
+     "value": "no_children",
+     "status": "observed",
+     "observed_day": 3
+    },
+    "wants_children": {
+     "value": "yes",
+     "status": "observed",
+     "observed_day": 3
+    },
+    "acceptable_zones": {
+     "value": [
+      "zone_a"
+     ],
+     "status": "observed",
+     "observed_day": 3
+    },
+    "schedule": {
+     "value": [
+      "weekday_evening",
+      "weekend_evening"
+     ],
+     "status": "observed",
+     "observed_day": 3
+    }
+   },
+   "soft_fields": {
+    "relationship_goal": {
+     "value": "long_term",
+     "status": "observed",
+     "observed_day": 3
+    },
+    "relationship_pace": {
+     "value": "quick",
+     "status": "observed",
+     "observed_day": 3
+    },
+    "lifestyle": {
+     "value": "quiet",
+     "status": "observed",
+     "observed_day": 3
+    },
+    "conversations": {
+     "value": "ideas",
+     "status": "observed",
+     "observed_day": 3
+    },
+    "emotional_availability": {
+     "value": "ready",
+     "status": "observed",
+     "observed_day": 3
+    },
+    "space_for_relationship": {
+     "value": "limited",
+     "status": "observed",
+     "observed_day": 3
+    },
+    "relocate": {
+     "value": "no",
+     "status": "observed",
+     "observed_day": 3
+    }
+   },
+   "questionnaire_text": {
+    "age_range": "25-36",
+    "conversations": "ideas",
+    "emotional_availability": "ready",
+    "gender": "woman",
+    "has_children": "No",
+    "lifestyle": "quiet",
+    "location": "zone_a",
+    "partner_children": "Prefer not to",
+    "partner_smoking": "Not compatible for me",
+    "relationship_goal": "long_term",
+    "relationship_pace": "quick",
+    "relationship_structure": "Monogamous",
+    "relocate": "no",
+    "schedule": "weekday_evening, weekend_evening",
+    "smoking": "No",
+    "space_for_relationship": "limited",
+    "wants_children": "I would like children",
+    "who_to_meet": "women, men, non-binary people"
+   },
+   "conversation": [
+    [
+     "assistant",
+     "What are you hoping to find?"
+    ],
+    [
+     "user",
+     "I would like to build a lasting relationship."
+    ],
+    [
+     "assistant",
+     "What pace feels comfortable?"
+    ],
+    [
+     "user",
+     "I am comfortable meeting fairly soon."
+    ],
+    [
+     "assistant",
+     "How do you tend to spend free time?"
+    ],
+    [
+     "user",
+     "I usually prefer a quiet evening."
+    ],
+    [
+     "assistant",
+     "What kinds of conversation do you enjoy?"
+    ],
+    [
+     "user",
+     "I enjoy talking about ideas."
+    ]
+   ],
+   "introduction_ids": [
+    "intro_07aa9c01e67a54d60b200864",
+    "intro_0586b3345b93ece06e674237",
+    "intro_79c2bea87ab0215f44a220e8",
+    "intro_f8f8d10179df16693b084900"
+   ],
+   "own_feedback_events": [
+    {
+     "introduction_id": "intro_07aa9c01e67a54d60b200864",
+     "event": "introduction_response",
+     "value": "yes",
+     "occurred_day": 9,
+     "observed_day": 9,
+     "missing_reason": null
+    },
+    {
+     "introduction_id": "intro_0586b3345b93ece06e674237",
+     "event": "introduction_response",
+     "value": null,
+     "occurred_day": null,
+     "observed_day": 18,
+     "missing_reason": "no_response"
+    },
+    {
+     "introduction_id": "intro_79c2bea87ab0215f44a220e8",
+     "event": "introduction_response",
+     "value": "yes",
+     "occurred_day": 26,
+     "observed_day": 26,
+     "missing_reason": null
+    }
+   ],
+   "response_history": {
+    "introductions_answered_or_timed_out": 3,
+    "answered": 2,
+    "yes": 2,
+    "shrunk_p_answer": 0.7233,
+    "shrunk_p_yes_given_answer": 0.682,
+    "p_yes": 0.4933
+   }
+  },
+  {
+   "alias": "P4",
+   "member_id": "syn_d1ce45f75d93596c81ae980e72fec48f",
+   "pool_id": "public_05",
+   "profile": {
+    "age": 35,
+    "gender": "woman",
+    "zone": "zone_a",
+    "arrived_day": 11,
+    "available_at_day_30": false
+   },
+   "hard_fields": {
+    "age_min": {
+     "value": 27,
+     "status": "observed",
+     "observed_day": 11
+    },
+    "age_max": {
+     "value": 39,
+     "status": "observed",
+     "observed_day": 11
+    },
+    "who_to_meet": {
+     "value": [
+      "woman",
+      "man",
+      "non_binary"
+     ],
+     "status": "observed",
+     "observed_day": 11
+    },
+    "relationship_structure": {
+     "value": "monogamous",
+     "status": "observed",
+     "observed_day": 11
+    },
+    "smoking": {
+     "value": "no",
+     "status": "observed",
+     "observed_day": 11
+    },
+    "partner_smoking": {
+     "value": "any",
+     "status": "observed",
+     "observed_day": 11
+    },
+    "has_children": {
+     "value": false,
+     "status": "observed",
+     "observed_day": 11
+    },
+    "partner_children": {
+     "value": "any",
+     "status": "observed",
+     "observed_day": 11
+    },
+    "wants_children": {
+     "value": "yes",
+     "status": "observed",
+     "observed_day": 11
+    },
+    "acceptable_zones": {
+     "value": [
+      "zone_a"
+     ],
+     "status": "observed",
+     "observed_day": 11
+    },
+    "schedule": {
+     "value": [
+      "weekday_evening"
+     ],
+     "status": "observed",
+     "observed_day": 11
+    }
+   },
+   "soft_fields": {
+    "relationship_goal": {
+     "value": "exploring",
+     "status": "observed",
+     "observed_day": 11
+    },
+    "relationship_pace": {
+     "value": "quick",
+     "status": "observed",
+     "observed_day": 11
+    },
+    "lifestyle": {
+     "value": "social",
+     "status": "observed",
+     "observed_day": 11
+    },
+    "conversations": {
+     "value": "stories",
+     "status": "observed",
+     "observed_day": 11
+    },
+    "emotional_availability": {
+     "value": "taking_time",
+     "status": "observed",
+     "observed_day": 11
+    },
+    "space_for_relationship": {
+     "value": "moderate",
+     "status": "observed",
+     "observed_day": 11
+    },
+    "relocate": {
+     "value": "yes",
+     "status": "observed",
+     "observed_day": 11
+    }
+   },
+   "questionnaire_text": {
+    "age_range": "27-39",
+    "conversations": "stories",
+    "emotional_availability": "taking_time",
+    "gender": "woman",
+    "has_children": "No",
+    "lifestyle": "social",
+    "location": "zone_a",
+    "partner_children": "Open to it",
+    "partner_smoking": "Open to it",
+    "relationship_goal": "exploring",
+    "relationship_pace": "quick",
+    "relationship_structure": "Monogamous",
+    "relocate": "yes",
+    "schedule": "weekday_evening",
+    "smoking": "No",
+    "space_for_relationship": "moderate",
+    "wants_children": "I would like children",
+    "who_to_meet": "women, men, non-binary people"
+   },
+   "conversation": [
+    [
+     "assistant",
+     "What are you hoping to find?"
+    ],
+    [
+     "user",
+     "I am still working out what I want."
+    ],
+    [
+     "assistant",
+     "What pace feels comfortable?"
+    ],
+    [
+     "user",
+     "I am comfortable meeting fairly soon."
+    ],
+    [
+     "assistant",
+     "How do you tend to spend free time?"
+    ],
+    [
+     "user",
+     "I enjoy having plans with people."
+    ],
+    [
+     "assistant",
+     "What kinds of conversation do you enjoy?"
+    ],
+    [
+     "user",
+     "I like hearing the stories behind things."
+    ]
+   ],
+   "introduction_ids": [
+    "intro_46a802767ca76481d8fddf32",
+    "intro_79c2bea87ab0215f44a220e8",
+    "intro_77f61db780061c0d1409aae3"
+   ],
+   "own_feedback_events": [
+    {
+     "introduction_id": "intro_46a802767ca76481d8fddf32",
+     "event": "introduction_response",
+     "value": "yes",
+     "occurred_day": 14,
+     "observed_day": 14,
+     "missing_reason": null
+    },
+    {
+     "introduction_id": "intro_79c2bea87ab0215f44a220e8",
+     "event": "introduction_response",
+     "value": "no",
+     "occurred_day": 25,
+     "observed_day": 25,
+     "missing_reason": null
+    }
+   ],
+   "response_history": {
+    "introductions_answered_or_timed_out": 2,
+    "answered": 2,
+    "yes": 1,
+    "shrunk_p_answer": 0.868,
+    "shrunk_p_yes_given_answer": 0.482,
+    "p_yes": 0.4184
+   }
+  },
+  {
+   "alias": "P5",
+   "member_id": "syn_f52d998f7b3adeed3355e5e1ddd5221d",
+   "pool_id": "public_05",
+   "profile": {
+    "age": 32,
+    "gender": "woman",
+    "zone": "zone_a",
+    "arrived_day": 0,
+    "available_at_day_30": false
+   },
+   "hard_fields": {
+    "age_min": {
+     "value": 25,
+     "status": "observed",
+     "observed_day": 0
+    },
+    "age_max": {
+     "value": 40,
+     "status": "observed",
+     "observed_day": 0
+    },
+    "who_to_meet": {
+     "value": [
+      "non_binary",
+      "man",
+      "woman"
+     ],
+     "status": "observed",
+     "observed_day": 0
+    },
+    "relationship_structure": {
+     "value": "monogamous",
+     "status": "observed",
+     "observed_day": 0
+    },
+    "smoking": {
+     "value": "no",
+     "status": "observed",
+     "observed_day": 0
+    },
+    "partner_smoking": {
+     "value": "any",
+     "status": "observed",
+     "observed_day": 0
+    },
+    "has_children": {
+     "value": false,
+     "status": "observed",
+     "observed_day": 0
+    },
+    "partner_children": {
+     "value": "any",
+     "status": "observed",
+     "observed_day": 0
+    },
+    "wants_children": {
+     "value": "unsure",
+     "status": "observed",
+     "observed_day": 0
+    },
+    "acceptable_zones": {
+     "value": [
+      "zone_a"
+     ],
+     "status": "observed",
+     "observed_day": 0
+    },
+    "schedule": {
+     "value": [
+      "weekday_evening",
+      "weekend_evening"
+     ],
+     "status": "observed",
+     "observed_day": 0
+    }
+   },
+   "soft_fields": {
+    "relationship_goal": {
+     "value": "exploring",
+     "status": "observed",
+     "observed_day": 0
+    },
+    "relationship_pace": {
+     "value": "steady",
+     "status": "observed",
+     "observed_day": 0
+    },
+    "lifestyle": {
+     "value": "social",
+     "status": "observed",
+     "observed_day": 0
+    },
+    "conversations": {
+     "value": "stories",
+     "status": "observed",
+     "observed_day": 0
+    },
+    "emotional_availability": {
+     "value": "taking_time",
+     "status": "observed",
+     "observed_day": 0
+    },
+    "space_for_relationship": {
+     "value": "ample",
+     "status": "observed",
+     "observed_day": 0
+    },
+    "relocate": {
+     "value": "yes",
+     "status": "observed",
+     "observed_day": 0
+    }
+   },
+   "questionnaire_text": {
+    "age_range": "25-40",
+    "conversations": "stories",
+    "emotional_availability": "taking_time",
+    "gender": "woman",
+    "has_children": "No",
+    "lifestyle": "social",
+    "location": "zone_a",
+    "partner_children": "Open to it",
+    "partner_smoking": "Open to it",
+    "relationship_goal": "exploring",
+    "relationship_pace": "steady",
+    "relationship_structure": "Monogamous",
+    "relocate": "yes",
+    "schedule": "weekday_evening, weekend_evening",
+    "smoking": "No",
+    "space_for_relationship": "ample",
+    "wants_children": "Unsure",
+    "who_to_meet": "non-binary people, men, women"
+   },
+   "conversation": [
+    [
+     "assistant",
+     "What are you hoping to find?"
+    ],
+    [
+     "user",
+     "I am still working out what I want."
+    ],
+    [
+     "assistant",
+     "What pace feels comfortable?"
+    ],
+    [
+     "user",
+     "A steady pace suits me."
+    ],
+    [
+     "assistant",
+     "How do you tend to spend free time?"
+    ],
+    [
+     "user",
+     "I enjoy having plans with people."
+    ],
+    [
+     "assistant",
+     "What kinds of conversation do you enjoy?"
+    ],
+    [
+     "user",
+     "I like hearing the stories behind things."
+    ]
+   ],
+   "introduction_ids": [
+    "intro_589d69af7223288424bf36c2",
+    "intro_27a1ed581954224f1a43685b",
+    "intro_af1f0815b21cde4c799cf3c4",
+    "intro_88bb04d44948f9f2470eb9a3"
+   ],
+   "own_feedback_events": [
+    {
+     "introduction_id": "intro_589d69af7223288424bf36c2",
+     "event": "introduction_response",
+     "value": "no",
+     "occurred_day": 3,
+     "observed_day": 3,
+     "missing_reason": null
+    },
+    {
+     "introduction_id": "intro_27a1ed581954224f1a43685b",
+     "event": "introduction_response",
+     "value": "yes",
+     "occurred_day": 12,
+     "observed_day": 12,
+     "missing_reason": null
+    },
+    {
+     "introduction_id": "intro_af1f0815b21cde4c799cf3c4",
+     "event": "introduction_response",
+     "value": "no",
+     "occurred_day": 18,
+     "observed_day": 18,
+     "missing_reason": null
+    },
+    {
+     "introduction_id": "intro_88bb04d44948f9f2470eb9a3",
+     "event": "introduction_response",
+     "value": "no",
+     "occurred_day": 26,
+     "observed_day": 26,
+     "missing_reason": null
+    }
+   ],
+   "response_history": {
+    "introductions_answered_or_timed_out": 4,
+    "answered": 4,
+    "yes": 1,
+    "shrunk_p_answer": 0.9057,
+    "shrunk_p_yes_given_answer": 0.3443,
+    "p_yes": 0.3118
+   }
+  }
+ ],
+ "introductions_touching_these_people": [
+  {
+   "introduction_id": "intro_589d69af7223288424bf36c2",
+   "a": "P5",
+   "b": "outside:f8eb16",
+   "assigned_day": 0,
+   "response_deadline_day": 7,
+   "events": [
+    {
+     "who": "P5",
+     "event": "introduction_response",
+     "value": "no",
+     "occurred_day": 3,
+     "observed_day": 3,
+     "missing_reason": null
+    },
+    {
+     "who": "outside:f8eb16",
+     "event": "introduction_response",
+     "value": "yes",
+     "occurred_day": 4,
+     "observed_day": 4,
+     "missing_reason": null
+    }
+   ]
+  },
+  {
+   "introduction_id": "intro_07aa9c01e67a54d60b200864",
+   "a": "outside:59ff3e",
+   "b": "P3",
+   "assigned_day": 3,
+   "response_deadline_day": 10,
+   "events": [
+    {
+     "who": "P3",
+     "event": "introduction_response",
+     "value": "yes",
+     "occurred_day": 9,
+     "observed_day": 9,
+     "missing_reason": null
+    },
+    {
+     "who": "outside:59ff3e",
+     "event": "introduction_response",
+     "value": null,
+     "occurred_day": null,
+     "observed_day": 10,
+     "missing_reason": "no_response"
+    }
+   ]
+  },
+  {
+   "introduction_id": "intro_27a1ed581954224f1a43685b",
+   "a": "P2",
+   "b": "P5",
+   "assigned_day": 8,
+   "response_deadline_day": 15,
+   "events": [
+    {
+     "who": "P5",
+     "event": "introduction_response",
+     "value": "yes",
+     "occurred_day": 12,
+     "observed_day": 12,
+     "missing_reason": null
+    },
+    {
+     "who": "P2",
+     "event": "introduction_response",
+     "value": null,
+     "occurred_day": null,
+     "observed_day": 15,
+     "missing_reason": "no_response"
+    }
+   ]
+  },
+  {
+   "introduction_id": "intro_46a802767ca76481d8fddf32",
+   "a": "P1",
+   "b": "P4",
+   "assigned_day": 11,
+   "response_deadline_day": 18,
+   "events": [
+    {
+     "who": "P4",
+     "event": "introduction_response",
+     "value": "yes",
+     "occurred_day": 14,
+     "observed_day": 14,
+     "missing_reason": null
+    },
+    {
+     "who": "P1",
+     "event": "introduction_response",
+     "value": "no",
+     "occurred_day": 15,
+     "observed_day": 15,
+     "missing_reason": null
+    }
+   ]
+  },
+  {
+   "introduction_id": "intro_0586b3345b93ece06e674237",
+   "a": "P3",
+   "b": "outside:9fb3c6",
+   "assigned_day": 11,
+   "response_deadline_day": 18,
+   "events": [
+    {
+     "who": "outside:9fb3c6",
+     "event": "introduction_response",
+     "value": "no",
+     "occurred_day": 15,
+     "observed_day": 15,
+     "missing_reason": null
+    },
+    {
+     "who": "P3",
+     "event": "introduction_response",
+     "value": null,
+     "occurred_day": null,
+     "observed_day": 18,
+     "missing_reason": "no_response"
+    }
+   ]
+  },
+  {
+   "introduction_id": "intro_af1f0815b21cde4c799cf3c4",
+   "a": "outside:e00e10",
+   "b": "P5",
+   "assigned_day": 16,
+   "response_deadline_day": 23,
+   "events": [
+    {
+     "who": "outside:e00e10",
+     "event": "introduction_response",
+     "value": "no",
+     "occurred_day": 17,
+     "observed_day": 17,
+     "missing_reason": null
+    },
+    {
+     "who": "P5",
+     "event": "introduction_response",
+     "value": "no",
+     "occurred_day": 18,
+     "observed_day": 18,
+     "missing_reason": null
+    }
+   ]
+  },
+  {
+   "introduction_id": "intro_79c2bea87ab0215f44a220e8",
+   "a": "P3",
+   "b": "P4",
+   "assigned_day": 19,
+   "response_deadline_day": 26,
+   "events": [
+    {
+     "who": "P4",
+     "event": "introduction_response",
+     "value": "no",
+     "occurred_day": 25,
+     "observed_day": 25,
+     "missing_reason": null
+    },
+    {
+     "who": "P3",
+     "event": "introduction_response",
+     "value": "yes",
+     "occurred_day": 26,
+     "observed_day": 26,
+     "missing_reason": null
+    }
+   ]
+  },
+  {
+   "introduction_id": "intro_88bb04d44948f9f2470eb9a3",
+   "a": "outside:3629e3",
+   "b": "P5",
+   "assigned_day": 24,
+   "response_deadline_day": 31,
+   "events": [
+    {
+     "who": "P5",
+     "event": "introduction_response",
+     "value": "no",
+     "occurred_day": 26,
+     "observed_day": 26,
+     "missing_reason": null
+    },
+    {
+     "who": "outside:3629e3",
+     "event": "introduction_response",
+     "value": "yes",
+     "occurred_day": 30,
+     "observed_day": 30,
+     "missing_reason": null
+    }
+   ]
+  },
+  {
+   "introduction_id": "intro_c82a86566ab309904af12acc",
+   "a": "P1",
+   "b": "outside:3dffb5",
+   "assigned_day": 25,
+   "response_deadline_day": 32,
+   "events": [
+    {
+     "who": "P1",
+     "event": "introduction_response",
+     "value": "no",
+     "occurred_day": 30,
+     "observed_day": 30,
+     "missing_reason": null
+    },
+    {
+     "who": "outside:3dffb5",
+     "event": "introduction_response",
+     "value": "no",
+     "occurred_day": 30,
+     "observed_day": 30,
+     "missing_reason": null
+    }
+   ]
+  },
+  {
+   "introduction_id": "intro_f8f8d10179df16693b084900",
+   "a": "outside:4a7b24",
+   "b": "P3",
+   "assigned_day": 27,
+   "response_deadline_day": 34,
+   "events": []
+  },
+  {
+   "introduction_id": "intro_77f61db780061c0d1409aae3",
+   "a": "outside:59ff3e",
+   "b": "P4",
+   "assigned_day": 27,
+   "response_deadline_day": 34,
+   "events": []
+  }
+ ],
+ "pairs": [
+  {
+   "pair": [
+    "P1",
+    "P2"
+   ],
+   "eligibility": "infeasible",
+   "fail_reasons": [
+    "children_present",
+    "who_to_meet"
+   ],
+   "soft_comparison": {
+    "relationship_goal": {
+     "a": "long_term",
+     "b": "exploring",
+     "counts": false
+    },
+    "relationship_pace": {
+     "a": "quick",
+     "b": "quick",
+     "counts": true
+    },
+    "lifestyle": {
+     "a": "mixed",
+     "b": "social",
+     "counts": false
+    },
+    "conversations": {
+     "a": "practical",
+     "b": "playful",
+     "counts": false
+    },
+    "emotional_availability": {
+     "a": "taking_time",
+     "b": "taking_time",
+     "counts": true
+    },
+    "space_for_relationship": {
+     "a": "ample",
+     "b": "moderate",
+     "counts": false
+    },
+    "relocate": {
+     "a": "unsure",
+     "b": "yes",
+     "counts": false
+    }
+   },
+   "soft_score_7": 2,
+   "soft_matches_4": 1,
+   "p_yes_a": 0.2448,
+   "p_yes_b": 0.2749,
+   "p_mutual": 0.0673,
+   "learned_weight": 0.0774
+  },
+  {
+   "pair": [
+    "P1",
+    "P3"
+   ],
+   "eligibility": "infeasible",
+   "fail_reasons": [
+    "children_present",
+    "smoking"
+   ],
+   "soft_comparison": {
+    "relationship_goal": {
+     "a": "long_term",
+     "b": "long_term",
+     "counts": true
+    },
+    "relationship_pace": {
+     "a": "quick",
+     "b": "quick",
+     "counts": true
+    },
+    "lifestyle": {
+     "a": "mixed",
+     "b": "quiet",
+     "counts": false
+    },
+    "conversations": {
+     "a": "practical",
+     "b": "ideas",
+     "counts": false
+    },
+    "emotional_availability": {
+     "a": "taking_time",
+     "b": "ready",
+     "counts": false
+    },
+    "space_for_relationship": {
+     "a": "ample",
+     "b": "limited",
+     "counts": false
+    },
+    "relocate": {
+     "a": "unsure",
+     "b": "no",
+     "counts": false
+    }
+   },
+   "soft_score_7": 2,
+   "soft_matches_4": 2,
+   "p_yes_a": 0.2448,
+   "p_yes_b": 0.4933,
+   "p_mutual": 0.1208,
+   "learned_weight": 0.157
+  },
+  {
+   "pair": [
+    "P1",
+    "P4"
+   ],
+   "eligibility": "feasible",
+   "fail_reasons": [],
+   "soft_comparison": {
+    "relationship_goal": {
+     "a": "long_term",
+     "b": "exploring",
+     "counts": false
+    },
+    "relationship_pace": {
+     "a": "quick",
+     "b": "quick",
+     "counts": true
+    },
+    "lifestyle": {
+     "a": "mixed",
+     "b": "social",
+     "counts": false
+    },
+    "conversations": {
+     "a": "practical",
+     "b": "stories",
+     "counts": false
+    },
+    "emotional_availability": {
+     "a": "taking_time",
+     "b": "taking_time",
+     "counts": true
+    },
+    "space_for_relationship": {
+     "a": "ample",
+     "b": "moderate",
+     "counts": false
+    },
+    "relocate": {
+     "a": "unsure",
+     "b": "yes",
+     "counts": false
+    }
+   },
+   "soft_score_7": 2,
+   "soft_matches_4": 1,
+   "p_yes_a": 0.2448,
+   "p_yes_b": 0.4184,
+   "p_mutual": 0.1024,
+   "learned_weight": 0.1178
+  },
+  {
+   "pair": [
+    "P1",
+    "P5"
+   ],
+   "eligibility": "feasible",
+   "fail_reasons": [],
+   "soft_comparison": {
+    "relationship_goal": {
+     "a": "long_term",
+     "b": "exploring",
+     "counts": false
+    },
+    "relationship_pace": {
+     "a": "quick",
+     "b": "steady",
+     "counts": false
+    },
+    "lifestyle": {
+     "a": "mixed",
+     "b": "social",
+     "counts": false
+    },
+    "conversations": {
+     "a": "practical",
+     "b": "stories",
+     "counts": false
+    },
+    "emotional_availability": {
+     "a": "taking_time",
+     "b": "taking_time",
+     "counts": true
+    },
+    "space_for_relationship": {
+     "a": "ample",
+     "b": "ample",
+     "counts": true
+    },
+    "relocate": {
+     "a": "unsure",
+     "b": "yes",
+     "counts": false
+    }
+   },
+   "soft_score_7": 2,
+   "soft_matches_4": 0,
+   "p_yes_a": 0.2448,
+   "p_yes_b": 0.3118,
+   "p_mutual": 0.0763,
+   "learned_weight": 0.0763
+  },
+  {
+   "pair": [
+    "P2",
+    "P3"
+   ],
+   "eligibility": "infeasible",
+   "fail_reasons": [
+    "children_plans",
+    "children_present",
+    "smoking"
+   ],
+   "soft_comparison": {
+    "relationship_goal": {
+     "a": "exploring",
+     "b": "long_term",
+     "counts": false
+    },
+    "relationship_pace": {
+     "a": "quick",
+     "b": "quick",
+     "counts": true
+    },
+    "lifestyle": {
+     "a": "social",
+     "b": "quiet",
+     "counts": false
+    },
+    "conversations": {
+     "a": "playful",
+     "b": "ideas",
+     "counts": false
+    },
+    "emotional_availability": {
+     "a": "taking_time",
+     "b": "ready",
+     "counts": false
+    },
+    "space_for_relationship": {
+     "a": "moderate",
+     "b": "limited",
+     "counts": false
+    },
+    "relocate": {
+     "a": "yes",
+     "b": "no",
+     "counts": false
+    }
+   },
+   "soft_score_7": 1,
+   "soft_matches_4": 1,
+   "p_yes_a": 0.2749,
+   "p_yes_b": 0.4933,
+   "p_mutual": 0.1356,
+   "learned_weight": 0.156
+  },
+  {
+   "pair": [
+    "P2",
+    "P4"
+   ],
+   "eligibility": "infeasible",
+   "fail_reasons": [
+    "children_plans",
+    "schedule"
+   ],
+   "soft_comparison": {
+    "relationship_goal": {
+     "a": "exploring",
+     "b": "exploring",
+     "counts": true
+    },
+    "relationship_pace": {
+     "a": "quick",
+     "b": "quick",
+     "counts": true
+    },
+    "lifestyle": {
+     "a": "social",
+     "b": "social",
+     "counts": true
+    },
+    "conversations": {
+     "a": "playful",
+     "b": "stories",
+     "counts": false
+    },
+    "emotional_availability": {
+     "a": "taking_time",
+     "b": "taking_time",
+     "counts": true
+    },
+    "space_for_relationship": {
+     "a": "moderate",
+     "b": "moderate",
+     "counts": true
+    },
+    "relocate": {
+     "a": "yes",
+     "b": "yes",
+     "counts": true
+    }
+   },
+   "soft_score_7": 6,
+   "soft_matches_4": 3,
+   "p_yes_a": 0.2749,
+   "p_yes_b": 0.4184,
+   "p_mutual": 0.115,
+   "learned_weight": 0.1668
+  },
+  {
+   "pair": [
+    "P2",
+    "P5"
+   ],
+   "eligibility": "feasible",
+   "fail_reasons": [],
+   "soft_comparison": {
+    "relationship_goal": {
+     "a": "exploring",
+     "b": "exploring",
+     "counts": true
+    },
+    "relationship_pace": {
+     "a": "quick",
+     "b": "steady",
+     "counts": false
+    },
+    "lifestyle": {
+     "a": "social",
+     "b": "social",
+     "counts": true
+    },
+    "conversations": {
+     "a": "playful",
+     "b": "stories",
+     "counts": false
+    },
+    "emotional_availability": {
+     "a": "taking_time",
+     "b": "taking_time",
+     "counts": true
+    },
+    "space_for_relationship": {
+     "a": "moderate",
+     "b": "ample",
+     "counts": false
+    },
+    "relocate": {
+     "a": "yes",
+     "b": "yes",
+     "counts": true
+    }
+   },
+   "soft_score_7": 4,
+   "soft_matches_4": 2,
+   "p_yes_a": 0.2749,
+   "p_yes_b": 0.3118,
+   "p_mutual": 0.0857,
+   "learned_weight": 0.1115
+  },
+  {
+   "pair": [
+    "P3",
+    "P4"
+   ],
+   "eligibility": "feasible",
+   "fail_reasons": [],
+   "soft_comparison": {
+    "relationship_goal": {
+     "a": "long_term",
+     "b": "exploring",
+     "counts": false
+    },
+    "relationship_pace": {
+     "a": "quick",
+     "b": "quick",
+     "counts": true
+    },
+    "lifestyle": {
+     "a": "quiet",
+     "b": "social",
+     "counts": false
+    },
+    "conversations": {
+     "a": "ideas",
+     "b": "stories",
+     "counts": false
+    },
+    "emotional_availability": {
+     "a": "ready",
+     "b": "taking_time",
+     "counts": false
+    },
+    "space_for_relationship": {
+     "a": "limited",
+     "b": "moderate",
+     "counts": false
+    },
+    "relocate": {
+     "a": "no",
+     "b": "yes",
+     "counts": false
+    }
+   },
+   "soft_score_7": 1,
+   "soft_matches_4": 1,
+   "p_yes_a": 0.4933,
+   "p_yes_b": 0.4184,
+   "p_mutual": 0.2064,
+   "learned_weight": 0.2373
+  },
+  {
+   "pair": [
+    "P3",
+    "P5"
+   ],
+   "eligibility": "feasible",
+   "fail_reasons": [],
+   "soft_comparison": {
+    "relationship_goal": {
+     "a": "long_term",
+     "b": "exploring",
+     "counts": false
+    },
+    "relationship_pace": {
+     "a": "quick",
+     "b": "steady",
+     "counts": false
+    },
+    "lifestyle": {
+     "a": "quiet",
+     "b": "social",
+     "counts": false
+    },
+    "conversations": {
+     "a": "ideas",
+     "b": "stories",
+     "counts": false
+    },
+    "emotional_availability": {
+     "a": "ready",
+     "b": "taking_time",
+     "counts": false
+    },
+    "space_for_relationship": {
+     "a": "limited",
+     "b": "ample",
+     "counts": false
+    },
+    "relocate": {
+     "a": "no",
+     "b": "yes",
+     "counts": false
+    }
+   },
+   "soft_score_7": 0,
+   "soft_matches_4": 0,
+   "p_yes_a": 0.4933,
+   "p_yes_b": 0.3118,
+   "p_mutual": 0.1538,
+   "learned_weight": 0.1538
+  },
+  {
+   "pair": [
+    "P4",
+    "P5"
+   ],
+   "eligibility": "feasible",
+   "fail_reasons": [],
+   "soft_comparison": {
+    "relationship_goal": {
+     "a": "exploring",
+     "b": "exploring",
+     "counts": true
+    },
+    "relationship_pace": {
+     "a": "quick",
+     "b": "steady",
+     "counts": false
+    },
+    "lifestyle": {
+     "a": "social",
+     "b": "social",
+     "counts": true
+    },
+    "conversations": {
+     "a": "stories",
+     "b": "stories",
+     "counts": true
+    },
+    "emotional_availability": {
+     "a": "taking_time",
+     "b": "taking_time",
+     "counts": true
+    },
+    "space_for_relationship": {
+     "a": "moderate",
+     "b": "ample",
+     "counts": false
+    },
+    "relocate": {
+     "a": "yes",
+     "b": "yes",
+     "counts": true
+    }
+   },
+   "soft_score_7": 5,
+   "soft_matches_4": 3,
+   "p_yes_a": 0.4184,
+   "p_yes_b": 0.3118,
+   "p_mutual": 0.1305,
+   "learned_weight": 0.1892
+  }
+ ],
+ "matchings": {
+  "greedy_by_soft_score": [
+   [
+    "P4",
+    "P5"
+   ]
+  ],
+  "global_by_soft_score_plus_1": [
+   [
+    "P1",
+    "P4"
+   ],
+   [
+    "P2",
+    "P5"
+   ]
+  ],
+  "greedy_by_learned_weight": [
+   [
+    "P3",
+    "P4"
+   ],
+   [
+    "P2",
+    "P5"
+   ]
+  ],
+  "global_by_learned_weight": [
+   [
+    "P2",
+    "P5"
+   ],
+   [
+    "P3",
+    "P4"
+   ]
+  ]
+ }
+}
