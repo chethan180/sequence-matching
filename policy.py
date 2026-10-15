@@ -4,11 +4,11 @@ The work is done by the layers in the `smp` package (input handling, feasibility
 allocation, safety). This file only selects a mode and guards the output. Hidden simulator state is never read.
 
 Modes
-  final                       the submitted policy, and the default when no argument is given
+  submission                  the submitted policy, and the default when no argument is given
+  final                       the Round 1 policy
   greedy / no_asks / random   the three reference baselines, unchanged
   any other key of CONFIGS    an ablation or research configuration
 """
-import argparse
 import itertools
 import json
 import random
@@ -16,7 +16,7 @@ import sys
 from kit import baseline_asks, baseline_match, eligibility
 from smp import allocate, experimental, feasibility, model, normalise, pipeline, safety
 
-DEFAULT_MODE = 'final'
+DEFAULT_MODE = 'submission'
 REFERENCE_MODES = ('greedy', 'no_asks', 'random')
 CONFIGS = dict(experimental.CONFIGS)
 CONFIGS.update(pipeline.CONFIGS)
@@ -68,12 +68,23 @@ def decide(request, mode=DEFAULT_MODE):
     return safety.guarded(request, lambda r: decide_raw(r, mode), fallbacks=(lambda r: _reference(r, 'greedy'),))
 
 
+def parse_mode(argv):
+    """`--baseline NAME` (how the evaluator runs the reference policies) or `--mode NAME`; anything else is ignored.
+    Parsed by hand: argparse alone adds tens of milliseconds to every call, and inference time is a tie-breaker."""
+    found = {}
+    for i, arg in enumerate(argv):
+        for flag in ('--baseline', '--mode'):
+            if arg == flag and i + 1 < len(argv):
+                found[flag] = argv[i + 1]
+            elif arg.startswith(flag + '='):
+                found[flag] = arg[len(flag) + 1:]
+    if found.get('--baseline') in REFERENCE_MODES:
+        return found['--baseline']
+    return found.get('--mode', DEFAULT_MODE)
+
+
 def main(argv=None):
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--baseline', choices=list(REFERENCE_MODES))
-    parser.add_argument('--mode', default=DEFAULT_MODE)
-    args = parser.parse_args(argv)
-    mode = args.baseline or args.mode
+    mode = parse_mode(sys.argv[1:] if argv is None else argv)
     if mode not in REFERENCE_MODES and mode not in CONFIGS:
         mode = DEFAULT_MODE
     try:

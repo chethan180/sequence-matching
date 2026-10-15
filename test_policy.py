@@ -32,7 +32,15 @@ def well_formed(test, response, phase):
 class ValidatorTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.sim, cls.state = state_on_day()
+        # the first day from day 12 on that still has an open feasible pair (the default policy uses them up quickly)
+        sim = Simulator(generate(5, 200, 'evaluation', 'development'))
+        for day in range(60):
+            state = sim.observe()
+            if day >= 12 and policy.feasible_edges(state):
+                break
+            sim.resolve_asks(policy.decide({'phase': 'ask', 'state': state, 'memory': None})['asks'])
+            sim.advance(policy.decide({'phase': 'match', 'state': sim.observe(), 'memory': None})['pairs'])
+        cls.sim, cls.state = sim, state
         cls.members = cls.state['members']
         cls.available = [m for m in cls.members if m['available']]
         cls.busy = [m for m in cls.members if not m['available']]
@@ -211,6 +219,18 @@ class EpisodeTests(unittest.TestCase):
             response, seconds = invoke([sys.executable, 'policy.py'], request)
             self.assertEqual(response, policy.decide(request))
             self.assertLess(seconds, 10)
+
+    def test_command_line_modes(self):
+        """The evaluator passes `--baseline NAME`; the container passes nothing."""
+        self.assertEqual(policy.parse_mode([]), policy.DEFAULT_MODE)
+        self.assertEqual(policy.parse_mode(['--baseline', 'greedy']), 'greedy')
+        self.assertEqual(policy.parse_mode(['--baseline=no_asks']), 'no_asks')
+        self.assertEqual(policy.parse_mode(['--mode', 'final']), 'final')
+        self.assertEqual(policy.parse_mode(['--baseline', 'nonsense']), policy.DEFAULT_MODE)
+        _, state = state_on_day(day=4)
+        request = {'schema_version': '1.0.0', 'phase': 'match', 'state': state, 'memory': None}
+        response, _ = invoke([sys.executable, 'policy.py', '--baseline', 'greedy'], request)
+        self.assertEqual(response, policy.decide(request, 'greedy'))
 
     def test_unknown_mode_falls_back_to_the_default(self):
         request = {'schema_version': '1.0.0', 'phase': 'match', 'state': Simulator(generate(42, 0)).observe(), 'memory': None}

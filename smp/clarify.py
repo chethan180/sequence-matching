@@ -6,15 +6,113 @@ is the person's true self-report, unless they declined it. Only available member
 Hard bundles come first because they are what makes an introduction possible at all. Soft answers only change how
 pairs are ranked, so they are bought with whatever is left, by value of information, and only when asked for.
 """
-from kit import baseline_asks
+import random
+from kit import HARD, baseline_asks
 from .feasibility import feasible_partners
 from .model import agreement_weights
-from .normalise import SOFT_CORE
+from .normalise import SOFT_CORE, is_blocked, is_complete, past_pairs
 
 
 def hard_bundle_asks(state):
     """Reference rule: the bundle for available members with a missing, not-declined hard field, in list order."""
     return baseline_asks(state)
+
+
+# ------------------------------------------------------------------ Bayesian ordering of hard-constraint bundles
+BAYES_DRAWS = 12
+
+
+def compatible(a, fa, b, fb):
+    """kit.eligibility for two complete answer sets (fa, fb), as a yes/no. Mirrors every hard check, both directions."""
+    for y, fx, fy in ((b, fa, fb), (a, fb, fa)):
+        if y['gender'] not in fx['who_to_meet'] or not fx['age_min'] <= y['age'] <= fx['age_max']:
+            return False
+        if y['zone'] not in fx['acceptable_zones']:
+            return False
+        if fx['partner_smoking'] == 'no_smoking' and fy['smoking'] in ('yes', 'occasionally'):
+            return False
+        if fx['partner_children'] == 'no_children' and fy['has_children'] is True:
+            return False
+    if fa['relationship_structure'] != fb['relationship_structure']:
+        return False
+    if {fa['wants_children'], fb['wants_children']} == {'yes', 'no'}:
+        return False
+    return bool(set(fa['schedule']) & set(fb['schedule']))
+
+
+def _templates(state):
+    """Complete hard answer sets observed so far, made relative to their owner's age and zone, so they can be lent to
+    another person: an age range becomes 'years below / above my own age', extra zones are those beyond one's own."""
+    out = []
+    for m in state['members']:
+        f = m['fields']
+        if all(f[k] is not None for k in HARD):
+            t = {k: f[k] for k in HARD}
+            t['_below'], t['_above'] = m['age'] - f['age_min'], f['age_max'] - m['age']
+            t['_extra'] = [z for z in f['acceptable_zones'] if z != m['zone']]
+            out.append(t)
+    return out
+
+
+def _imagine(member, template):
+    """Member's hard answers: the known ones as they are, each unknown one taken from the borrowed template."""
+    f, out = member['fields'], {}
+    for k in HARD:
+        if f[k] is not None:
+            out[k] = f[k]
+        elif k == 'age_min':
+            out[k] = max(18, member['age'] - template['_below'])
+        elif k == 'age_max':
+            out[k] = min(65, member['age'] + template['_above'])
+        elif k == 'acceptable_zones':
+            out[k] = [member['zone']] + [z for z in template['_extra'] if z != member['zone']]
+        else:
+            out[k] = template[k]
+    return out
+
+
+def match_chances(state, candidates):
+    """For each candidate (a member with unknown hard answers), from what is observable now:
+        P(at least one partner)  and  expected number of partners it would be feasible with.
+
+    Bayesian by simulation: the prior for a person's unknown hard answers is the set of complete answer sets already
+    observed in the pool (borrowed whole, so answers that go together stay together). Each draw imagines the unknown
+    answers of every not-yet-complete member at once, then counts the candidate's feasible partners among everyone not
+    blocked by a declined answer and not already introduced to them. Deterministic for a given day."""
+    templates = _templates(state)
+    if not templates:
+        return {}
+    rng = random.Random('bayes-asks|%d' % state['day'])
+    past = past_pairs(state)
+    pool = [m for m in state['members'] if not is_blocked(m)]
+    hits = {c['member_id']: 0 for c in candidates}
+    partners = {c['member_id']: 0 for c in candidates}
+    for _ in range(BAYES_DRAWS):
+        drawn = {m['member_id']: (m['fields'] if is_complete(m) else _imagine(m, rng.choice(templates))) for m in pool}
+        for c in candidates:
+            cid, fc, n = c['member_id'], drawn[c['member_id']], 0
+            for o in pool:
+                oid = o['member_id']
+                if oid != cid and (min(cid, oid), max(cid, oid)) not in past and compatible(c, fc, o, drawn[oid]):
+                    n += 1
+            partners[cid] += n
+            hits[cid] += n > 0
+    return {cid: (hits[cid] / BAYES_DRAWS, partners[cid] / BAYES_DRAWS) for cid in hits}
+
+
+def bayes_bundle_asks(state, skip_below=None):
+    """The same members the reference rule would ask, ordered by expected number of partners (most first).
+    With `skip_below`, members whose chance of any partner is below it are not asked today (they are re-scored daily)."""
+    candidates = [m for m in state['members'] if m['available'] and not is_complete(m) and not is_blocked(m)]
+    if not candidates:
+        return []
+    chances = match_chances(state, candidates)
+    if not chances:
+        return baseline_asks(state)
+    order = sorted(candidates, key=lambda m: (-chances[m['member_id']][1], m['member_id']))
+    if skip_below is not None:
+        order = [m for m in order if chances[m['member_id']][0] >= skip_below]
+    return [{'member_id': m['member_id'], 'field': 'constraints'} for m in order[:state['ask_budget_remaining'] // 3]]
 
 
 def voi_soft_asks(state, spent_units):
@@ -62,6 +160,8 @@ def voi_soft_asks(state, spent_units):
 def choose_asks(state, cfg):
     if cfg['ask'] == 'none':
         asks = []
+    elif cfg['ask'] == 'bayes':
+        asks = bayes_bundle_asks(state, cfg.get('skip_below'))
     elif cfg['ask'] == 'value':
         from . import experimental
         asks = experimental.value_asks(state, state['ask_budget_remaining'])

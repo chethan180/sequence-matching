@@ -1,0 +1,8 @@
+family        coverage_ceili greedy_coverag submission_cov   usable_pairs submission_usa msmi_slot_capp greedy_expecte submission_exp submission_rea
+development            0.394          0.382          0.391        114.600         91.567          1.130          0.933          0.940          0.867
+sparse                 0.174          0.171          0.173         23.233         22.733          0.250          0.239          0.240          0.133
+cold_start             0.331          0.321          0.328         94.500         74.300          1.026          0.818          0.823          1.000
+delayed                0.400          0.389          0.394        122.967         90.200          1.232          0.947          0.956          0.933
+shift                  0.408          0.400          0.404        124.533         96.167          1.078          0.862          0.888          1.067
+drift                  0.380          0.371          0.377        110.267         90.300          1.115          0.864          0.915          1.067
+all                    0.348          0.339          0.345         98.350         77.544          0.972          0.777          0.794          0.844

@@ -1,0 +1,5 @@
+config            MSMI/100  mutual/100  yes rate  mut/intro  coverage  ask_cost  assign  dates  known core   wait
+sub_adapt            0.367        5.61     0.362      0.149     0.340     189.4    75.7    8.8       0.300   5.29
+sub_scarce           0.367        5.52     0.359      0.146     0.340     189.4    75.9    8.6       0.300   5.21
+sub_skip10           0.357        5.58     0.361      0.147     0.340     187.8    75.8    8.7       0.299   5.32
+submission           0.358        5.58     0.361      0.148     0.340     189.4    75.9    8.7       0.299   5.28

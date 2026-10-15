@@ -3,11 +3,13 @@
 They are kept so that the earlier studies stay reproducible: an online-only response rate, Thompson sampling,
 boosted trees, a staged second-meeting term, asks ranked by unlock potential, and a simple soft-ask rule.
 """
+import json
+import os
 import random
 from kit import eligibility
 from .feasibility import feasible_edges
-from .model import (PRIOR_ANSWER, PRIOR_STRENGTH, PRIOR_YES, directional_features, load_model, logistic_p, shrunk_rates,
-                    sigmoid, soft_match_count)
+from .model import (FEATURES, PRIOR_ANSWER, PRIOR_STRENGTH, PRIOR_YES, directional_features, directional_p, load_model,
+                    shrunk_rates, sigmoid, soft_match_count)
 from .normalise import EMPTY_STATS, SOFT_CORE, is_blocked, is_complete, member_stats, past_pairs
 
 CONFIGS = {
@@ -28,6 +30,22 @@ CONFIGS = {
     'final_soft_res':  dict(ask='baseline', match='global', score='logit', eps=0.02, soft_asks=True, soft_reserve=3),
     'final_voi_res':   dict(ask='baseline', match='global', score='logit', eps=0.02, soft_asks='voi', soft_reserve=3),
 }
+
+
+# Research-only weights (the boosted trees) live outside the shipped model file and are not copied into the image.
+RESEARCH_WEIGHTS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'results', 'research_weights.json')
+_RESEARCH = None
+
+
+def research_model():
+    global _RESEARCH
+    if _RESEARCH is None:
+        try:
+            with open(RESEARCH_WEIGHTS, encoding='utf-8') as handle:
+                _RESEARCH = json.load(handle)
+        except (OSError, ValueError):
+            _RESEARCH = {}
+    return _RESEARCH
 
 
 def propensities(state):
@@ -98,16 +116,17 @@ def edge_weights(state, edges, cfg):
         if kind == 'thompson':
             w = draw[a['member_id']] * draw[b['member_id']] * (1.0 + cfg.get('soft_w', 0.0) * soft_match_count(a, b))
         else:
-            xa = directional_features(a, b, stats, day)
-            xb = directional_features(b, a, stats, day)
-            if kind == 'gbm' and 'gbm' in model:
-                w = gbm_p(model['gbm'], xa) * gbm_p(model['gbm'], xb)
+            gbm = research_model().get('gbm') if kind == 'gbm' else None
+            if gbm:
+                names = gbm.get('features', FEATURES)
+                w = (gbm_p(gbm, directional_features(a, b, stats, day, names))
+                     * gbm_p(gbm, directional_features(b, a, stats, day, names)))
             elif 'logit' in model:
-                w = logistic_p(model['logit'], xa) * logistic_p(model['logit'], xb)
+                w = directional_p(model['logit'], a, b, stats, day) * directional_p(model['logit'], b, a, stats, day)
             else:
                 w = fallback[a['member_id']] * fallback[b['member_id']]
             if kind == 'logit_staged' and 'second' in model:
-                w *= logistic_p(model['second'], xa) * logistic_p(model['second'], xb)
+                w *= directional_p(model['second'], a, b, stats, day) * directional_p(model['second'], b, a, stats, day)
         weighted.append((eps + w, a['member_id'], b['member_id']))
     return weighted
 

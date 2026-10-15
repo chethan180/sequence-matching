@@ -1,0 +1,32 @@
+rows 110700 | train 82806 | held-out 27894 | yes rate 0.3606
+
+Held-out worlds, target: said yes (no response counts as not yes)
+  constant             AUC 0.5000  log-loss 0.6558  Brier 0.2316
+  logit_all_19         AUC 0.5722  log-loss 0.6478  Brier 0.2280
+  logit_shipped_14     AUC 0.5717  log-loss 0.6479  Brier 0.2280
+  gbm_all_19           AUC 0.5703  log-loss 0.6480  Brier 0.2281
+  shipped - all features: -0.0004  95% [-0.0019, +0.0010]
+
+Calibration of the shipped model (10 equal-count bins, predicted vs observed):
+  0.247  0.238
+  0.303  0.300
+  0.329  0.333
+  0.342  0.351
+  0.361  0.373
+  0.366  0.395
+  0.368  0.384
+  0.388  0.388
+  0.415  0.423
+  0.486  0.455
+
+AUC by scenario family: trained with all families | trained without that family
+  development  0.5662 | 0.5652   (n=5358)
+  sparse       0.5573 | 0.5573   (n=1396)
+  cold_start   0.5740 | 0.5731   (n=4476)
+  delayed      0.5876 | 0.5837   (n=5228)
+  shift        0.5476 | 0.5415   (n=5446)
+  drift        0.5852 | 0.5825   (n=5990)
+
+Second-meeting model (rows with a date): held-out AUC 0.5249 on 3212 rows
+
+export check 1.1e-16; model_weights.json 2.8 KiB

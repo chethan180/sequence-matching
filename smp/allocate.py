@@ -3,7 +3,7 @@
 The pool is treated as a graph (members are nodes, feasible pairs are weighted edges) and the pairs are chosen jointly,
 because taking the single best pair first can strand people who had no other partner.
 """
-from .feasibility import feasible_edges
+from .feasibility import feasible_edges, feasible_partners
 from .matching import best_pairs
 from .model import pair_values, soft_match_count
 from .normalise import past_pairs
@@ -14,6 +14,9 @@ from .normalise import past_pairs
 CARDINALITY = 10 ** 12
 COVERAGE = 10 ** 9
 VALUE_SCALE = 10 ** 6
+# Optional scarcity bonus for a first-time member with few feasible partners left (3 levels: 1, 2 or 3 partners).
+# It sits below the coverage tier (at most 200 x 3 x 10^6 < 10^9) and mostly above the value tier.
+SCARCITY = 10 ** 6
 
 
 def greedy_matching(weighted):
@@ -122,12 +125,26 @@ def edge_weights(state, edges, cfg):
 def tiered_weights(state, edges, cfg):
     """Integer weights for the exact matcher: cardinality, then first-time coverage, then predicted value."""
     served = {x for pair in past_pairs(state) for x in pair}
-    values = pair_values(state, edges) if cfg['score'] == 'logit' else [0.0] * len(edges)
+    values = pair_values(state, edges, adapt=cfg.get('adapt', False)) if cfg['score'] == 'logit' else [0.0] * len(edges)
+    level = {}
+    if cfg.get('scarcity'):
+        # partners still possible for each complete member (busy ones included: they will be free again)
+        _, partners = feasible_partners(state)
+        level = {mid: max(0, 4 - len(ps)) for mid, ps in partners.items() if mid not in served}
+    # optional waiting for a better match: a pair below the bar is not offered today, so both people wait
+    waiting = state['day'] < cfg.get('release_day', 10 ** 6)
+    min_value = cfg.get('min_value') if waiting else None
+    min_soft = cfg.get('min_soft') if waiting else None
     out = []
     for v, (a, b) in zip(values, edges):
+        if min_value is not None and v < min_value:
+            continue
+        if min_soft is not None and soft_match_count(a, b) < min_soft:
+            continue
         w = CARDINALITY if cfg.get('cardinality', True) else 0
         if cfg.get('coverage', True):
             w += COVERAGE * ((a['member_id'] not in served) + (b['member_id'] not in served))
+        w += SCARCITY * (level.get(a['member_id'], 0) + level.get(b['member_id'], 0))
         w += int(round(min(max(v, 0.0), 1.0) * VALUE_SCALE)) + 1
         out.append((w, a['member_id'], b['member_id']))
     return out
@@ -140,6 +157,8 @@ def choose_pairs(state, cfg):
     if cfg['match'] == 'tiered':
         from .safety import seconds_left
         weighted = tiered_weights(state, edges, cfg)
+        if not weighted:
+            return []
         if seconds_left() > 2.0:
             return [sorted(p) for p in best_pairs(weighted)]
         return [sorted(p) for p in greedy_matching(weighted)]    # out of time: still valid, merely not optimal

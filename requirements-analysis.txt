@@ -1,0 +1,4 @@
+# Training and analysis only. The policy and its Docker image use the Python standard library alone.
+numpy==2.5.1
+scipy==1.18.1
+scikit-learn==1.9.0

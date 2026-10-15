@@ -1,0 +1,45 @@
+{
+ "introductions": 2366,
+ "status": {
+  "relationship_goal|observed": 2554,
+  "relationship_goal|not_asked": 2027,
+  "relationship_pace|observed": 2574,
+  "relationship_pace|declined": 146,
+  "lifestyle|observed": 2499,
+  "lifestyle|not_asked": 2081,
+  "conversations|observed": 2555,
+  "conversations|not_asked": 2018,
+  "lifestyle|declined": 152,
+  "conversations|declined": 159,
+  "relationship_pace|not_asked": 2012,
+  "relationship_goal|declined": 151
+ },
+ "known_both": {
+  "0": 1399,
+  "4": 600,
+  "1": 321,
+  "2": 43,
+  "3": 3
+ },
+ "soft_match": {
+  "0": 1705,
+  "1": 368,
+  "3": 74,
+  "2": 213,
+  "4": 6
+ },
+ "value_quantiles_offered": {
+  "0.1": 0.07479181449112128,
+  "0.25": 0.10729414261165655,
+  "0.5": 0.12733370415501352,
+  "0.75": 0.1402483897499463,
+  "0.9": 0.16709708771110357
+ },
+ "value_quantiles_introduced": {
+  "0.1": 0.08703991393960808,
+  "0.25": 0.11363510689659297,
+  "0.5": 0.13523874170898514,
+  "0.75": 0.14491333753579083,
+  "0.9": 0.17467378914027742
+ }
+}

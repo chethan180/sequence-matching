@@ -20,7 +20,7 @@ import policy
 
 VARIANTS = ('development', 'sparse', 'cold_start', 'delayed', 'shift', 'drift')
 INDEPENDENT = '--independent' in __import__('sys').argv
-KEYS = ('msmi100', 'mutual100', 'coverage', 'ask_cost', 'assignments', 'dates', 'yes_rate', 'mutual_rate', 'known_core')
+KEYS = ('msmi100', 'mutual100', 'coverage', 'ask_cost', 'assignments', 'dates', 'yes_rate', 'mutual_rate', 'known_core', 'wait')
 
 
 def oracle_pairs(sim, state, mode):
@@ -83,8 +83,12 @@ def run(job):
     responses = [e for e in events if e['event'] == 'introduction_response']
     yes_n = sum(e['value'] == 'yes' for e in responses)
     served = set()
+    first_day = {}
     for i in sim.introductions:
         served.update((i['user_a'], i['user_b']))
+        for x in (i['user_a'], i['user_b']):
+            first_day.setdefault(x, i['assigned_day'])
+    waits = [first_day[x] - sim.members[x]['arrived_day'] for x in first_day if x in arrived]
     n = max(1, len(arrived))
     out = dict(mode=mode, variant=variant, seed=seed,
                assignments=r['assignments'], mutual=r['mutual_acceptances'], dates=r['dates'],
@@ -95,6 +99,7 @@ def run(job):
                yes_rate=yes_n / max(1, len(responses)),
                mutual_rate=r['mutual_acceptances'] / max(1, r['assignments']),
                known_core=known_sum / max(1, known_n),
+               wait=sum(waits) / max(1, len(waits)),
                seconds=time.perf_counter() - t0, slowest_call=slowest)
     if collect:
         intro_id = {(i['user_a'], i['user_b'], i['assigned_day']): i['introduction_id'] for i in sim.introductions}
@@ -170,8 +175,8 @@ if __name__ == '__main__':
     summ = summarise(rows)
     if not a.collect:
         Path(a.output).write_text(json.dumps({'rows': rows, 'summary': summ}, indent=1))
-    print(f"{'config':16} {'MSMI/100':>9} {'mutual/100':>11} {'yes rate':>9} {'mut/intro':>10} {'coverage':>9} {'ask_cost':>9} {'assign':>7} {'dates':>6} {'known core':>11}")
+    print(f"{'config':16} {'MSMI/100':>9} {'mutual/100':>11} {'yes rate':>9} {'mut/intro':>10} {'coverage':>9} {'ask_cost':>9} {'assign':>7} {'dates':>6} {'known core':>11} {'wait':>6}")
     for m, s in summ.items():
         o = s['overall']
         print(f"{m:16} {o['msmi100']:9.3f} {o['mutual100']:11.2f} {o['yes_rate']:9.3f} {o['mutual_rate']:10.3f} "
-              f"{o['coverage']:9.3f} {o['ask_cost']:9.1f} {o['assignments']:7.1f} {o['dates']:6.1f} {o['known_core']:11.3f}")
+              f"{o['coverage']:9.3f} {o['ask_cost']:9.1f} {o['assignments']:7.1f} {o['dates']:6.1f} {o['known_core']:11.3f} {o['wait']:6.2f}")

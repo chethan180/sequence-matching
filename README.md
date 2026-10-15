@@ -1,89 +1,111 @@
-# The Sequential Matching Problem
+# Sequential Matching: ML_Wizards_IITM, Round 2 build
 
-**Final participant release 1.0.0 | Vouchsafe | 5 October 2026**
+A decision policy for the Vouchsafe / Romeo & Juliet Sequential Matching Problem (release 1.0.0). Each simulated day it chooses whose deal-breakers to ask about and which feasible, non-overlapping pairs to introduce. Inference runs offline on CPU, in Python's standard library only.
 
-Build a policy that decides who to introduce, when to wait and what to clarify, using incomplete reciprocal preferences and delayed feedback. Every person, conversation and outcome in this kit is synthetic.
+| Document | Content |
+|---|---|
+| **[BEST_SOLUTION.md](BEST_SOLUTION.md)** | **The technical report.** The shipped policy stage by stage, results against all three baselines on all six families, inference time, head-room, failure cases and limitations |
+| [EXPERIMENTS_BY_STAGE.md](EXPERIMENTS_BY_STAGE.md) | Every experiment and ablation, with data, paired intervals and decisions |
+| [ASK_STRATEGY.md](ASK_STRATEGY.md) | The Bayesian clarification policy, with a worked example |
+| [docs/STARTER_README.md](docs/STARTER_README.md) | The organisers' original kit README |
 
-## Start here
+## The policy in brief
 
-1. Read the [final problem statement](PROBLEM_STATEMENT.md) or [download the PDF](docs/PROBLEM_STATEMENT.pdf).
-2. Download this repository with **Code → Download ZIP**, or clone it. The full dataset is already in `data/`; no Supabase account, API key or separate download is required.
-3. Install Python 3.10 or later. Open a terminal in the extracted repository folder and run:
+1. **Asking.** Only hard-constraint bundles are asked. Askable members are ordered by Bayesian expected number of compatible partners. Anyone under a 5% chance of any partner is skipped for that day and re-scored daily.
+2. **Matching.** The organisers' `eligibility()` is the only gate. A 14-feature logistic yes-model ranks pairs. An exact maximum-weight matching (Edmonds' blossom algorithm) uses tiered weights in this order: most introductions, then most first-time members, then scarce members, then predicted value.
+3. **Repeat.** The policy keeps no memory and rebuilds everything from each observation. Nobody with a feasible partner is held back. Every ask and pair is re-validated, with fallbacks to the reference rule and then to empty lists.
+
+## Setup
+
+Inference and evaluation need **Python 3.10 or later and nothing else**. The policy image uses `python:3.12.7-slim`, and CI runs the tests on Python 3.10 and 3.12. Development used Python 3.14.6.
+
+Training and the analysis scripts additionally need the libraries in `requirements-analysis.txt`. They are never imported by the policy and are not in the image.
 
 ```bash
-python -m unittest -v
+pip install -r requirements-analysis.txt      # only for training and analysis, not for inference
+```
+
+On Windows, clone with `git clone -c core.autocrlf=false <repo>` so that `verify_data.py` sees the exact data bytes.
+
+## Exact commands
+
+**Checks (the organisers' sequence):**
+
+```bash
+python -m unittest -v                          # 42 tests: kit, release, runner, policy safety, matcher
 python verify_data.py
-python evaluate.py --seeds 101 --output results/first_run.json
+docker build -t sequential-policy:submission .
+python evaluate.py --image sequential-policy:submission --seeds 101 --variants all --output results/container_check.json
 ```
 
-On Windows, use `py` instead of `python` if needed. On macOS/Linux, use `python3` if your Python executable has that name. The starter has no external Python dependencies. Results are written to the requested JSON file; scores measure this invented simulator only.
+In local mode `evaluate.py` always passes `--baseline` (default `greedy`) to the policy, so it evaluates the reference baselines. Our policy is what the container runs with no arguments, and what `run_final_study.py` runs locally.
 
-## What is included
+**The four-way comparison through the organisers' harness** (`evaluate.episode`, one process per call, seeds 101–120 × 6 families):
 
-| File / folder | Purpose |
+```bash
+python run_final_study.py --seeds 101-120 --output-dir results/official
+```
+
+**The larger paired studies** (in-process, independent worlds per family):
+
+```bash
+python experiments.py --configs greedy,no_asks,random,final,tiered,submission --seeds 6001-6060 --independent --output results/study_final.json
+python experiments.py --configs greedy,final,tiered,tiered_nocov,tiered_novalue,exact_value --seeds 2001-2060 --independent --output results/study_r2a.json
+python experiments.py --configs tiered,tiered_valueask,tiered_bayes,tiered_bayes_skip --seeds 4001-4060 --independent --output results/study_asks.json
+python experiments.py --configs submission_v1,sub_skip10,sub_scarce,sub_adapt --seeds 5001-5060 --independent --output results/study_next.json
+python experiments.py --configs submission,wait_v_p25,wait_v_p50,wait_v_p50_r40,wait_soft1,wait_soft2 --seeds 8001-8060 --independent --output results/study_wait.json
+python ask_model_study.py --seeds 3001-3020                     # Bayesian ask model: prediction quality
+python soft_status_study.py --seeds 7001-7005                   # soft answers at introduction; pair-value percentiles
+python headroom_r2.py --seeds 4001-4030                         # coverage and MSMI maximums (diagnostic)
+```
+
+`results/study_next.json` was produced when the default had no scarcity bonus. That configuration is now named `submission_v1`, and the stored file labels it `submission`.
+
+**Training the shipped model:**
+
+```bash
+python experiments.py --configs greedy,random,global_learned --seeds 1001-1040 --variants all --independent --collect --output results/train_rows_r2.npz
+python train_shipped.py                                         # writes model_weights.json and results/offline_metrics_r2.json
+```
+
+## Seeds and randomness
+
+| Item | Value |
 |---|---|
-| [PROBLEM_STATEMENT.md](PROBLEM_STATEMENT.md) | Final challenge, ranking, resources, schedule and ownership rules |
-| [data/](data/) | 2,000 synthetic adults, ten disjoint pools and day-30 observable histories |
-| [data_manifest.json](data_manifest.json) | Pool counts, source seeds and train/validation/development-test split |
-| [docs/DATA_CONTRACT.md](docs/DATA_CONTRACT.md) | Every field, constraint and feedback rule |
-| [docs/POLICY_INTERFACE.md](docs/POLICY_INTERFACE.md) | Executable JSON request/response protocol |
-| [policy.py](policy.py) | Runnable greedy, no-clarification and random-feasible baselines |
-| [evaluate.py](evaluate.py) | 60-day episodes, 40-day follow-up, metrics and scenario-level score |
-| [build_public_data.py](build_public_data.py) | Rebuild public synthetic tables in a new folder |
-| [kit.py](kit.py) | Reproducible public simulator and reciprocal eligibility checks |
-| [organise.py](organise.py) | Prepare and grade 120 private episodes outside the public repo |
-| [docs/ORGANISER_RUNBOOK.md](docs/ORGANISER_RUNBOOK.md) | Complete assessment commands and ranking procedure |
-| [Dockerfile](Dockerfile) | Offline container packaging for assessed inference |
-| [docs/SUBMISSION.md](docs/SUBMISSION.md) | Complete research and build submission instructions |
-| [docs/INTEGRATION.md](docs/INTEGRATION.md) | Reusable adapter boundary for later Vouchsafe evaluation |
-| [docs/FAQ.md](docs/FAQ.md) | Common questions and communication policy |
-| [examples/baseline_results/](examples/baseline_results/) | Checked reference runs for all three baselines |
-| [examples/REPORT_GUIDE.md](examples/REPORT_GUIDE.md) | What a complete participant technical report must cover |
+| Training rollouts | Seeds 1001–1040 × 6 families. World seed = seed + 100000 × family index (development 0, sparse 1, cold start 2, delayed 3, shift 4, drift 5). Behaviour policies: greedy, random feasible, `global_learned` |
+| Model validation split | Seeds ≤ 1030 train, ≥ 1031 held out; the shipped weights are then refitted on all 40 seeds |
+| History priors | Supplied training pools `public_01`–`public_06`: reply rate 0.797, yes rate 0.479 |
+| **Inference random seed** | The policy is deterministic given the request. The only pseudo-random step, the Bayesian ask model, uses `random.Random('bayes-asks|<day>')`. The released random-feasible baseline uses `random.Random(17 + day)` |
+| Experiment seeds | Listed with each command above; every study uses fresh seeds |
 
-## Develop and compare
+## Inference assets and limits
 
-Edit `policy.py`, keeping the JSON interface. Observe only the input state. Refreshing observations after clarification is handled by the evaluator. Policy memory is passed explicitly between calls and reset between episodes.
+- **Image contents:** `kit.py`, `policy.py`, `smp/` and `model_weights.json` (2.8 KiB). `.dockerignore` excludes everything else.
+- **No network, no GPU, no external services.** Memory between calls is `{}`.
+- **Speed:** about 0.2 s per call including process start-up (measured through the organisers' harness), against a 10 s limit. An internal 6 s budget switches to a greedy matcher if time runs short.
 
-```bash
-python evaluate.py --baseline greedy --seeds 101,102,103 --variants all --output results/greedy.json
-python evaluate.py --baseline no_asks --seeds 101,102,103 --variants all --output results/no_asks.json
-python evaluate.py --baseline random --seeds 101,102,103 --variants all --output results/random.json
-```
+## Results files
 
-The full commands take longer than the one-episode quick start. Public variants are `development`, `sparse`, `cold_start`, `delayed`, `shift`, and `drift`. Use your own declared training seeds. Keep the supplied six training pools, two validation pools and two development-test pools disjoint. Day-30 snapshots are not observations from earlier decisions.
+All are machine-readable and committed, although `results/` is otherwise ignored.
 
-To check container execution after installing Docker:
-
-```bash
-docker build -t sequential-policy:1.0 .
-python evaluate.py --image sequential-policy:1.0 --seeds 101 --output results/container.json
-```
-
-Local subprocess mode is only for trusted development code. Assessed submissions use offline containers with no host evaluation files mounted. Private organiser worlds are intentionally absent from this public repository.
-
-To regenerate the public tables without changing the supplied data:
-
-```bash
-python build_public_data.py --output ../rebuilt-public-data
-```
-
-The new folder must not already exist. The generator uses only invented data and public seeds. Do not use seed reconstruction inside an evaluated policy.
-
-## Submit and ask questions
-
-Teams: **1–4 participants**.
-
-| Milestone | Date and time (IST) |
+| File | Content |
 |---|---|
-| Round 1 research submission closes | 9 October 2026, 23:59 |
-| Round 1 results announced by | 11 October 2026, 22:00 |
-| Round 2 build starts | 12 October 2026 |
-| Final build submission closes | 18 October 2026, 23:59 |
+| `results/official/{greedy,no_asks,random,round1_final,submission}.json` | Full-episode results in `evaluate.py` format: seeds 101–120, all six families, the organisers' harness |
+| `results/study_final.json` | Shipped policy vs the three baselines and earlier versions, 2,160 episodes |
+| `results/study_r2a.json`, `study_asks.json`, `study_next.json`, `study_wait.json` | Ablations: matcher tiers, ask order and skipping, scarcity, re-learning, waiting thresholds |
+| `results/headroom_r2.json` | Coverage ceiling, MSMI upper bound and luck-free expected MSMI (diagnostic) |
+| `results/ask_model_study.json`, `results/soft_status_study.json` | Bayesian ask-model accuracy; soft-answer status at introduction |
+| `results/train_rows_r2.npz`, `results/offline_metrics_r2.json`, `results/train_shipped.log` | Training data, held-out metrics and the training log of the shipped model |
 
-**Round 1:** submit the research note through a Google Form. The organisers will release the link soon through [Discord](https://discord.gg/GwZdY54Gq) and [the submission guide](docs/SUBMISSION.md#research-submission). GitHub Issues are not the research submission route.
+## Provenance and licences
 
-**Round 2:** use the [Final submission](https://github.com/RomeoJulietLove/The-Sequential-Matching-Problem/issues/new?template=final_submission.yml) issue form by the final deadline. Provide the immutable submitted version and required report/results. Use [Question](https://github.com/RomeoJulietLove/The-Sequential-Matching-Problem/issues/new?template=question.yml) for technical questions. Never post personal data, access codes or credentials in public issues.
-
-This repository and public Issues are the shared technical communication hub. Event announcements and reminders are shared through [the IITM Discord server](https://discord.gg/GwZdY54Gq). Questions answered here are visible to every team. See [CHANGELOG.md](CHANGELOG.md) for release corrections.
-
-The [starter-code permission](LICENSE) and [synthetic-data permission](DATA_LICENSE.md) permit reuse of the supplied kit. Students retain ownership of their own work; participation does not grant Vouchsafe a commercial licence to submissions. Later use requires a separate agreement.
+| Item | Declaration |
+|---|---|
+| Models | One logistic regression trained by us (`train_shipped.py`); no pretrained or external models |
+| Data | Only the supplied synthetic kit data and our own simulator rollouts; no external or personal data |
+| Inference dependencies | Python standard library only (PSF licence) |
+| Training and analysis libraries | NumPy 2.5.1, SciPy 1.18.1, scikit-learn 1.9.0 (all BSD-3-Clause); never part of the image |
+| Training compute | One laptop CPU (12 threads), minutes per training run; no GPU |
+| Starter kit and data | Organisers' terms: [LICENSE](LICENSE), [DATA_LICENSE.md](DATA_LICENSE.md) |
+| Coding tools | **To be completed by the team before submission** |
+| Licence for our own code | **To be chosen by the team before submission** |

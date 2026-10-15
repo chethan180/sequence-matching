@@ -1,0 +1,129 @@
+{
+ "rows": 7920,
+ "share_with_partner": 0.5233585858585859,
+ "auc": {
+  "bayes_p": 0.7267092403677933,
+  "bayes_n": 0.7315181939462689,
+  "potential": 0.586209987298189
+ },
+ "calibration": [
+  {
+   "bin": [
+    0,
+    0.05
+   ],
+   "n": 829,
+   "predicted": 0.0,
+   "observed": 0.13268998793727382
+  },
+  {
+   "bin": [
+    0.05,
+    0.2
+   ],
+   "n": 1122,
+   "predicted": 0.12358882947118241,
+   "observed": 0.2896613190730838
+  },
+  {
+   "bin": [
+    0.2,
+    0.4
+   ],
+   "n": 1191,
+   "predicted": 0.29135180520570947,
+   "observed": 0.4517212426532326
+  },
+  {
+   "bin": [
+    0.4,
+    0.6
+   ],
+   "n": 2191,
+   "predicted": 0.502852578731173,
+   "observed": 0.5919671382930168
+  },
+  {
+   "bin": [
+    0.6,
+    0.8
+   ],
+   "n": 1510,
+   "predicted": 0.7064017660044151,
+   "observed": 0.6927152317880795
+  },
+  {
+   "bin": [
+    0.8,
+    1.01
+   ],
+   "n": 1077,
+   "predicted": 0.8874187558031569,
+   "observed": 0.7697307335190343
+  }
+ ],
+ "by_variant": {
+  "development": {
+   "n": 1345,
+   "with_partner": 0.5806691449814126,
+   "auc_bayes_n": 0.6858625965982873,
+   "auc_potential": 0.5596275914675675
+  },
+  "sparse": {
+   "n": 1278,
+   "with_partner": 0.24100156494522693,
+   "auc_bayes_n": 0.6615008702637568,
+   "auc_potential": 0.5274802517070558
+  },
+  "cold_start": {
+   "n": 1497,
+   "with_partner": 0.5764863059452238,
+   "auc_bayes_n": 0.6739246849995065,
+   "auc_potential": 0.5734233526214402
+  },
+  "delayed": {
+   "n": 1266,
+   "with_partner": 0.5576619273301737,
+   "auc_bayes_n": 0.6984343383245649,
+   "auc_potential": 0.5594989376770538
+  },
+  "shift": {
+   "n": 1247,
+   "with_partner": 0.6046511627906976,
+   "auc_bayes_n": 0.7218741425043447,
+   "auc_potential": 0.6033783311184164
+  },
+  "drift": {
+   "n": 1287,
+   "with_partner": 0.5695415695415695,
+   "auc_bayes_n": 0.704929053737915,
+   "auc_potential": 0.5659411153412365
+  }
+ },
+ "skip": [
+  {
+   "threshold": 0.05,
+   "skipped": 829,
+   "skipped_without_partner": 719,
+   "skipped_with_partner": 110
+  },
+  {
+   "threshold": 0.1,
+   "skipped": 1409,
+   "skipped_without_partner": 1147,
+   "skipped_with_partner": 262
+  },
+  {
+   "threshold": 0.2,
+   "skipped": 1951,
+   "skipped_without_partner": 1516,
+   "skipped_with_partner": 435
+  },
+  {
+   "threshold": 0.3,
+   "skipped": 2551,
+   "skipped_without_partner": 1857,
+   "skipped_with_partner": 694
+  }
+ ]
+}
